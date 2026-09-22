@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clueora – Homework Help That Teaches Kids to Think</title>
+  <meta name="description" content="Clueora is an AI homework assistant that never gives the answer. It guides kids to credible sources and teaches them how to research and understand information themselves.">
+  <meta name="keywords" content="homework help, kids education, AI learning, research skills, edtech, Clueora">
+  
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="Clueora – Lead kids to the answer, don’t give it">
+  <meta property="og:description" content="AI-powered homework helper that teaches research skills using only credible sources.">
+  <meta property="og:type" content="website">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --teal: #2EC4B6;
+      --teal-dark: #1A9B8F;
+      --coral: #FF6B6B;
+      --coral-soft: #FF8E8E;
+      --navy: #1B2A41;
+      --gray: #5A6A7A;
+      --light: #F7FBFB;
+      --white: #FFFFFF;
+      --shadow: 0 10px 30px rgba(27, 42, 65, 0.08);
+      --radius: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--navy);
+      background: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(46, 196, 182, 0.15);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--navy);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+    }
+
+    .logo img {
+      height: 48px;
+      width: auto;
+      display: block;
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--gray);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--teal);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      color: white;
+      box-shadow: 0 4px 15px rgba(46, 196, 182, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(46, 196, 182, 0.45);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--teal-dark);
+      border: 2px solid var(--teal);
+    }
+
+    .btn-secondary:hover {
+      background: var(--light);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 80px 0 100px;
+      background: linear-gradient(180deg, #F0FFFD 0%, #FFFFFF 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(46, 196, 182, 0.12) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero-content {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-text h1 {
+      font-size: clamp(2.4rem, 5vw, 3.4rem);
+      margin-bottom: 20px;
+      color: var(--navy);
+    }
+
+    .hero-text h1 span {
+      color: var(--teal);
+    }
+
+    .hero-text p {
+      font-size: 1.2rem;
+      color: var(--gray);
+      margin-bottom: 32px;
+      max-width: 520px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-card {
+      background: white;
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: var(--shadow);
+      max-width: 380px;
+      text-align: center;
+      border: 1px solid rgba(46, 196, 182, 0.15);
+    }
+
+    .hero-card img {
+      max-width: 200px;
+      height: auto;
+    }
+
+    .hero-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+
+    .hero-card p {
+      color: var(--gray);
+      font-size: 0.95rem;
+    }
+
+    /* Sections */
+    section {
+      padding: 90px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 60px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.9rem, 4vw, 2.6rem);
+      margin-bottom: 16px;
+    }
+
+    .section-header p {
+      color: var(--gray);
+      font-size: 1.1rem;
+    }
+
+    /* Problem */
+    .problem {
+      background: var(--light);
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    .problem-card {
+      background: white;
+      padding: 32px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border-top: 4px solid var(--coral);
+    }
+
+    .problem-card .icon {
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+
+    .problem-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+    }
+
+    .problem-card p {
+      color: var(--gray);
+      font-size: 0.98rem;
+    }
+
+    /* Solution / How it works */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 32px;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      background: white;
+      border: 1px solid rgba(46, 196, 182, 0.2);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      text-align: center;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      top: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 36px;
+      height: 36px;
+      background: var(--teal);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .step h3 {
+      margin: 16px 0 12px;
+      font-size: 1.25rem;
+    }
+
+    .step p {
+      color: var(--gray);
+      font-size: 0.98rem;
+    }
+
+    /* Features */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+    }
+
+    .feature {
+      display: flex;
+      gap: 18px;
+      padding: 24px;
+      background: var(--light);
+      border-radius: var(--radius);
+    }
+
+    .feature-icon {
+      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+      background: white;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .feature h3 {
+      font-size: 1.15rem;
+      margin-bottom: 6px;
+    }
+
+    .feature p {
+      color: var(--gray);
+      font-size: 0.95rem;
+    }
+
+    /* CTA */
+    .cta {
+      background: linear-gradient(135deg, var(--teal-dark), #148F85);
+      color: white;
+      text-align: center;
+      padding: 90px 0;
+      border-radius: 0;
+    }
+
+    .cta h2 {
+      font-size: clamp(1.9rem, 4vw, 2.5rem);
+      margin-bottom: 16px;
+    }
+
+    .cta p {
+      font-size: 1.15rem;
+      opacity: 0.9;
+      max-width: 560px;
+      margin: 0 auto 36px;
+    }
+
+    .cta .btn {
+      background: white;
+      color: var(--teal-dark);
+      font-size: 1.1rem;
+      padding: 16px 40px;
+    }
+
+    .cta .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.8);
+      padding: 50px 0 30px;
+      text-align: center;
+    }
+
+    footer .logo {
+      color: white;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    footer p {
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+    }
+
+    footer a {
+      color: var(--teal);
+      text-decoration: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 860px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-text p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-buttons {
+        justify-content: center;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .hero {
+        padding: 50px 0 70px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <a href="#" class="logo">
+        <img src="logo.png" alt="Clueora logo">
+      </a>
+      <ul class="nav-links">
+        <li><a href="#problem">The Problem</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#features">Features</a></li>
+      </ul>
+      <a href="#waitlist" class="btn btn-primary">Join Waitlist</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-content">
+      <div class="hero-text">
+        <h1>Homework help that <span>teaches</span>, not answers</h1>
+        <p>Clueora guides kids to credible sources and gives smart clues so they learn how to research and understand information themselves — never just the final answer.</p>
+        <div class="hero-buttons">
+          <a href="#waitlist" class="btn btn-primary">Get Early Access</a>
+          <a href="#how" class="btn btn-secondary">See How It Works</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card">
+          <img src="logo.png" alt="Clueora mascot" style="width: 180px; height: auto; margin-bottom: 16px;">
+          <h3>Meet Clue</h3>
+          <p>Your friendly AI research guide that points the way instead of giving the destination.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem -->
+  <section class="problem" id="problem">
+    <div class="container">
+      <div class="section-header">
+        <h2>The problem with most homework apps</h2>
+        <p>They hand kids the answer. We believe that teaches the wrong lesson.</p>
+      </div>
+      <div class="problem-grid">
+        <div class="problem-card">
+          <div class="icon">❌</div>
+          <h3>Answer dumping</h3>
+          <p>Most AI tools just solve the problem. Kids copy, paste, and learn nothing about research or critical thinking.</p>
+        </div>
+        <div class="problem-card">
+          <div class="icon">🌐</div>
+          <h3>Unreliable sources</h3>
+          <p>Open web search can lead to random blogs, outdated pages, or even harmful content. Parents and teachers worry.</p>
+        </div>
+        <div class="problem-card">
+          <div class="icon">📉</div>
+          <h3>Skill gap grows</h3>
+          <p>Students who never practice finding and evaluating information struggle later in high school, college, and life.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how">
+    <div class="container">
+      <div class="section-header">
+        <h2>How Clueora works</h2>
+        <p>Three simple steps that turn homework into real learning.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <h3>Ask the question</h3>
+          <p>Kids type or speak their homework question. Clueora asks a couple of clarifying questions about grade level and what they already know.</p>
+        </div>
+        <div class="step">
+          <h3>Get guided sources</h3>
+          <p>We search only pre-vetted, high-credibility educational sites (Britannica, Khan Academy, museums, National Geographic Kids, etc.).</p>
+        </div>
+        <div class="step">
+          <h3>Follow the clues</h3>
+          <p>Instead of the answer, kids receive step-by-step research prompts: “Look for the definition in the first paragraph… Now find an example…”</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" style="background: var(--light);">
+    <div class="container">
+      <div class="section-header">
+        <h2>Built for real learning</h2>
+        <p>Everything designed to help kids become better thinkers and researchers.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature">
+          <div class="feature-icon">🛡️</div>
+          <div>
+            <h3>Credible sources only</h3>
+            <p>Whitelist of trusted educational websites. No random internet results.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🧠</div>
+          <div>
+            <h3>Never gives the answer</h3>
+            <p>Strict system rules prevent final answers. Only clues, questions, and sources.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">👨‍👩‍👧</div>
+          <div>
+            <h3>Parent dashboard</h3>
+            <p>See what sources were used, time spent, and skills practiced — without invading privacy.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">📱</div>
+          <div>
+            <h3>Works on any device</h3>
+            <p>Web app first, mobile apps coming. Simple enough for elementary, powerful enough for middle school.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🎯</div>
+          <div>
+            <h3>Age-appropriate guidance</h3>
+            <p>Clues and language adjust automatically based on grade level.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">✨</div>
+          <div>
+            <h3>Encouraging AI companion</h3>
+            <p>Clue (our mascot) celebrates progress and keeps kids motivated without doing the work for them.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / Waitlist -->
+  <section class="cta" id="waitlist">
+    <div class="container">
+      <h2>Be the first to try Clueora</h2>
+      <p>We’re building the prototype now. Join the waitlist to get early access and help shape the product that teaches kids how to learn.</p>
+      <a href="mailto:hello@clueora.com?subject=Clueora Waitlist" class="btn">Join the Waitlist →</a>
+      <p style="margin-top: 24px; font-size: 0.95rem; opacity: 0.85;">Or email us at hello@clueora.com</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <a href="#" class="logo">
+        <img src="logo.png" alt="Clueora logo">
+      </a>
+      <p>Lead kids to the answer. Never give it.</p>
+      <p style="margin-top: 20px; font-size: 0.85rem; opacity: 0.6;">
+        © 2026 Clueora. Early prototype. Built with ❤️ for curious kids and the adults who care about them.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
